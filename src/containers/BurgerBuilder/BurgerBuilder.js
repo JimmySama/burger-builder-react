@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
-import Aux from "../../hoc/Auxillary";
+import Aux from "../../hoc/Auxillay/Auxillary";
+import Modal from "../../components/UI/Modal/Modal";
+import BurgerOrderSummary from "../../components/Burger/BurgerOrderSummary/BurgerOrderSummary";
 class BurgerBuilder extends Component {
     state = {
         ingredients: {
             salad: 0,
-            meat: 0,
-            cheese: 0,
             bacon: 0,
+            cheese: 0,
+            meat: 0,
         },
         totPrice: 4,
         purchasesable: false,
+        shownModal: false,
     };
     ingredientsPrice = {
         salad: 0.3,
@@ -65,6 +68,20 @@ class BurgerBuilder extends Component {
         });
         this.updatePurchaseBtn(updatedIngredients);
     };
+
+    openModalHandler = () => {
+        this.setState({
+            shownModal: true,
+        });
+    };
+    closeModalHandler = () => {
+        this.setState({
+            shownModal: false,
+        });
+    };
+    successOrderHandler = () => {
+        alert("Your order successfully completed");
+    };
     render() {
         const disableInfo = {
             ...this.state.ingredients,
@@ -75,6 +92,14 @@ class BurgerBuilder extends Component {
         }
         return (
             <Aux>
+                <Modal show={this.state.shownModal} closeModal={this.closeModalHandler}>
+                    <BurgerOrderSummary
+                        ingredients={this.state.ingredients}
+                        closeModal={this.closeModalHandler}
+                        successOrder={this.successOrderHandler}
+                        price={this.state.totPrice}
+                    />
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
                     addIngredients={this.addIngredientsHandler}
@@ -82,6 +107,7 @@ class BurgerBuilder extends Component {
                     disabled={disableInfo}
                     price={this.state.totPrice}
                     purchases={this.state.purchasesable}
+                    click={this.openModalHandler}
                 />
             </Aux>
         );

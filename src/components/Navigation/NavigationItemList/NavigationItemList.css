@@ -1,0 +1,22 @@
+.NavigationItemList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    height: 100%;
+    text-align:  center;
+}
+
+@media only screen and (min-width: 500px) {
+    .NavigationItemList {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        height: 100%;
+    }
+}
