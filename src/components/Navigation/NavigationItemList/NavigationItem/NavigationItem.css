@@ -19,8 +19,8 @@
 .NavigationItem a:hover,
 .NavigationItem a:active,
 .NavigationItem a.active {
-    background-color: #8f5c2cd5;
-
+    border-left: 4px solid #4084c8;
+    border-bottom: none;
     color: #fff;
 }
 
@@ -46,8 +46,8 @@
     .NavigationItem a:hover,
     .NavigationItem a:active,
     .NavigationItem a.active {
-        background-color: #8f5c2c;
         border-bottom: 4px solid #4084c8;
+        border-left: none;
         color: #fff;
     }
 }

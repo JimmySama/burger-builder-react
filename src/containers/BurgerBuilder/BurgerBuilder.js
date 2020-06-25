@@ -10,7 +10,7 @@ import errorHandler from "../../hoc/ErrorHandler/ErrorHandler";
 class BurgerBuilder extends Component {
     state = {
         ingredients: null,
-        totPrice: 5,
+        totPrice: 2,
         purchasesable: false,
         shownModal: false,
         loading: false,
@@ -89,37 +89,21 @@ class BurgerBuilder extends Component {
             shownModal: false,
         });
     };
-    successOrderHandler = async () => {
-        try {
-            this.setState({
-                loading: true,
-            });
-            const order = {
-                ingredients: this.state.ingredients,
-                price: this.state.totPrice,
-                customer: {
-                    name: "Htut Wai Phyoe",
-                    address: {
-                        street: "test street",
-                        zipcode: "2232s",
-                        city: "test city",
-                    },
-                    email: "test@example.com",
-                },
-                deliveryMethod: "fastest",
-            };
-
-            await axios.post("/orders.json", order);
-            this.setState({
-                loading: false,
-                shownModal: false,
-            });
-        } catch (err) {
-            this.setState({
-                loading: false,
-                shownModal: false,
-            });
+    successOrderHandler = () => {
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            queryParams.push(
+                encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i])
+            );
         }
+        queryParams.push(
+            encodeURIComponent("price") + "=" + encodeURIComponent(this.state.totPrice)
+        );
+        const queryString = queryParams.join("&");
+        this.props.history.push({
+            pathname: "/checkout",
+            search: "?" + queryString,
+        });
     };
     render() {
         const disableInfo = {
@@ -130,7 +114,11 @@ class BurgerBuilder extends Component {
             disableInfo[key] = disableInfo[key] <= 0;
         }
         let orderSummary = null;
-        let burger = this.state.error ? <p style={{ textAlign: 'center', color: 'red'}}>Something went wrong!</p> : <Spinner />;
+        let burger = this.state.error ? (
+            <p style={{ textAlign: "center", color: "red" }}>Something went wrong!</p>
+        ) : (
+            <Spinner />
+        );
         if (this.state.ingredients) {
             burger = (
                 <Aux>
