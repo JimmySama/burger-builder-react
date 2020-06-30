@@ -25,3 +25,7 @@
     border: 1px solid #ccc;
     background-color: #ccc;
 }
+
+.Invalid {
+    border: 1px solid #dd4949c0;
+}
