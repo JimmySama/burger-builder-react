@@ -7,6 +7,7 @@ import axios from "../../../axios-orders";
 import Input from "../../../components/UI/Input/Input";
 import ErrorHandler from "../../../hoc/ErrorHandler/ErrorHandler";
 import * as actions from "../../../store/actions/actions";
+import { checkInputValidation } from "../../../shared/utils";
 class ContactData extends Component {
     state = {
         orderForm: {
@@ -112,26 +113,14 @@ class ContactData extends Component {
             this.props.onOrderBurger(order, this.props.token);
         }
     };
-    checkInputValidation = (value, validationType) => {
-        let isValid = true;
-        if (validationType.required) {
-            isValid = value.trim() !== "" && isValid;
-        }
-        if (validationType.minLength) {
-            isValid = value.length >= validationType.minLength && isValid;
-        }
-        if (validationType.maxLength) {
-            isValid = value.length <= validationType.maxLength && isValid;
-        }
-        return isValid;
-    };
+
     inputChangeHandler = (event, inputelement) => {
         const updatedOrderForm = {
             ...this.state.orderForm,
         };
         const updatedFormElement = { ...updatedOrderForm[inputelement] };
         updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkInputValidation(
+        updatedFormElement.valid = checkInputValidation(
             updatedFormElement.value,
             updatedFormElement.validation
         );

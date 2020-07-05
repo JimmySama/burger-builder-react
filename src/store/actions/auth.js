@@ -52,7 +52,7 @@ export const auth = (payload, isSignup) => {
         axios
             .post(url, authData)
             .then((response) => {
-                console.log(response.data);
+             
                 const expirationTime = new Date(
                     new Date().getTime() + response.data.expiresIn * 1000
                 );
@@ -79,7 +79,6 @@ export const initAuth = () => {
         const token = localStorage.getItem("token");
         if (!token) {
             deleteAuthData();
-            console.log("Ok");
         } else {
             const expirationTime = new Date(localStorage.getItem("expirationTime"));
             if (expirationTime < new Date()) {

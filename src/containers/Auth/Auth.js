@@ -6,6 +6,7 @@ import Button from "../../components/UI/Button/Button";
 import classes from "./Auth.css";
 import * as actionCreators from "../../store/actions/auth";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { checkInputValidation } from "../../shared/utils";
 class Auth extends Component {
     state = {
         authForm: {
@@ -39,26 +40,14 @@ class Auth extends Component {
         },
         isSignup: true,
     };
-    checkInputValidation = (value, validationType) => {
-        let isValid = true;
-        if (validationType.required) {
-            isValid = value.trim() !== "" && isValid;
-        }
-        if (validationType.minLength) {
-            isValid = value.length >= validationType.minLength && isValid;
-        }
-        if (validationType.maxLength) {
-            isValid = value.length <= validationType.maxLength && isValid;
-        }
-        return isValid;
-    };
+
     inputChangeHandler = (event, inputelement) => {
         const updatedauthForm = {
             ...this.state.authForm,
         };
         const updatedFormElement = { ...updatedauthForm[inputelement] };
         updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkInputValidation(
+        updatedFormElement.valid = checkInputValidation(
             updatedFormElement.value,
             updatedFormElement.validation
         );

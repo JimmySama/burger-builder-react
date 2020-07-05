@@ -36,6 +36,16 @@ class App extends Component {
             routes = (
                 <Switch>
                     <Route
+                        path="/auth"
+                        render={() => {
+                            return (
+                                <Suspense fallback={<Spinner />}>
+                                    <Auth />
+                                </Suspense>
+                            );
+                        }}
+                    />
+                    <Route
                         path="/checkout"
                         render={() => {
                             return (
