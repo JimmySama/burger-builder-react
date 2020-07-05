@@ -10,7 +10,7 @@ const toolBar = (props) => (
         <Logo />
 
         <nav className={classes.DesktopOnly}>
-            <Navigation />
+            <Navigation auth={props.auth} />
         </nav>
     </header>
 );

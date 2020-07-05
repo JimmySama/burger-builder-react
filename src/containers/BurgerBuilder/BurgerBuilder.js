@@ -61,9 +61,13 @@ class BurgerBuilder extends Component {
     };
 
     openModalHandler = () => {
-        this.setState({
-            shownModal: true,
-        });
+        if (this.props.auth) {
+            this.setState({
+                shownModal: true,
+            });
+        } else {
+            this.props.history.push("/auth");
+        }
     };
     closeModalHandler = () => {
         this.setState({
@@ -113,6 +117,7 @@ class BurgerBuilder extends Component {
                         price={this.props.price}
                         purchases={this.updatePurchaseBtn(this.props.ings)}
                         click={this.openModalHandler}
+                        auth={this.props.auth}
                     />
                 </Aux>
             );
@@ -142,6 +147,7 @@ const mapStateToProps = (state) => {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totPrice,
         error: state.burgerBuilder.error,
+        auth: state.auth.token,
     };
 };
 

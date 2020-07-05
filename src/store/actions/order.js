@@ -25,11 +25,11 @@ export const redirect = () => {
         type: actionTypes.REDIRECT_ORDER,
     };
 };
-export const storeOrder = (payload) => {
+export const storeOrder = (payload, token) => {
     return (dispatch) => {
         dispatch(startOrder());
         axios
-            .post("/orders.json", payload)
+            .post("/orders.json?auth=" + token, payload)
             .then((response) => {
                 dispatch(successOrder(response.data));
             })
@@ -59,11 +59,17 @@ export const getOrderFail = (payload) => {
     };
 };
 
-export const getOrder = () => {
+export const getOrder = (payload) => {
     return (dispatch) => {
         dispatch(getOrderStart());
         axios
-            .get("/orders.json")
+            .get(
+                "/orders.json?auth=" +
+                    payload.token +
+                    '&orderBy="userId"&equalTo="' +
+                    payload.userId +
+                    '"'
+            )
             .then((response) => {
                 let orders = [];
                 for (let key in response.data) {

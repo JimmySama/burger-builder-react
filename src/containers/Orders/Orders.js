@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import Order from "../../components/Order/Order";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -12,7 +13,9 @@ class Orders extends Component {
         loading: true,
     };
     componentDidMount() {
-        this.props.onGetOrders();
+        if (this.props.token) {
+            this.props.onGetOrders(this.props.token, this.props.userId);
+        }
     }
     render() {
         let orders = this.props.orders.map((order) => (
@@ -24,7 +27,9 @@ class Orders extends Component {
         if (this.props.loading) {
             orders = <Spinner />;
         }
-
+        if (!this.props.token) {
+            orders = <Redirect to="/" />;
+        }
         return <div>{orders}</div>;
     }
 }
@@ -33,12 +38,15 @@ const mapStateToProps = (state) => {
         orders: state.order.orders,
         loading: state.order.loading,
         error: state.order.error,
+        token: state.auth.token,
+        userId: state.auth.userId,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetOrders: () => dispatch(actions.getOrder()),
+        onGetOrders: (token, userId) =>
+            dispatch(actions.getOrder({ token: token, userId: userId })),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ErrorHandler(Orders, axios));

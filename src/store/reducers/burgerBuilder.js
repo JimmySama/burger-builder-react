@@ -3,7 +3,7 @@ import * as actions from "../actions/actionTypes";
 const initialState = {
     ingredients: null,
     totPrice: 2,
-
+    buildingBurger: false,
     error: false,
 };
 
@@ -22,6 +22,7 @@ const addIngredient = (state, action) => {
             [action.payload.ingredient]: state.ingredients[action.payload.ingredient] + 1,
         },
         totPrice: state.totPrice + ingredientsPrice[action.payload.ingredient],
+        buildingBurger: true,
     };
 };
 
@@ -33,6 +34,7 @@ const removeIngredient = (state, action) => {
             [action.payload.ingredient]: state.ingredients[action.payload.ingredient] - 1,
         },
         totPrice: state.totPrice - ingredientsPrice[action.payload.ingredient],
+        buildingBurger: true,
     };
 };
 
@@ -42,6 +44,7 @@ const initIngredients = (state, action) => {
         ingredients: action.payload,
         error: false,
         totPrice: 2,
+        buildingBurger: false,
     };
 };
 
